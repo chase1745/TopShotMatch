@@ -1,0 +1,16 @@
+{"id":"26299608","name":"Jimmy Butler","team":"Miami Heat","tier":"Rare","series":"Eastern Conference Finals (Series 2)","serial":"1313/20000"}
+{"id":"31449287","name":"Vince Carter","team":"Toronto Raptors","tier":"Rare", "series":"Base Set (Series 2)","serial":"28/10000"}
+{"id":"39179042","name":"Alex Caruso","team":"Chicago Bulls","tier":"Rare", "series":"Early Adopters (Series 1)","serial":"12/1000"}
+{"id":"1337","name":"Luka Doncic","team":"Dallas Mavericks","tier":"Common", "series":"Early Adopters (Series 17)","serial":"102/300000"}
+{"id":"22","name":"Coby White","team":"Chicago Bulls","tier":"Legendary", "series":"From the Top (Series 1)","serial":"42/59"}
+{"id":"4039990","name":"Nikola Jokic","team":"Denver Nuggets","tier":"Rare", "series":"Base Set (Series 1)","serial":"8988/40000"}
+{"id":"4234990","name":"Lebron James","team":"Los Angeles Lakers","tier":"Rare", "series":"Run it Back (Series 3)","serial":"23/5000"}
+{"id":"98","name":"Dennis Smith Jr.","team":"NY Knicks","tier":"Rare", "series":"Early Adopters (Series 1)","serial":"999/3000"}
+{"id":"896131","name":"Ja Morant","team":"Memphis Grizzlies","tier":"Rare", "series":"Base Set (Series 4)","serial":"10221/15000"}
+{"id":"17374300","name":"Chris Paul","team":"OKC Thunder","tier":"Common", "series":"Run It Back (Series 4)","serial":"12/150"}
+{"id":"34217479","name":"Shaquille O'Neal","team":"Los Angeles Lakers","tier":"Legendary", "series":"NBA All-Star Classics (Series 3)","serial":"1/50"}
+{"id":"29972401","name":"Franz Wagner","team":"Orlando Magic","tier":"Common", "series":"Rising Stars(Series 13)","serial":"1223/5000"}
+{"id":"35968077","name":"Maxi Kleber","team":"Dallas Mavericks","tier":"Common", "series":"Rising Stars(Series 1)","serial":"183/39000"}
+{"id":"16480740","name":"Deandre Ayton","team":"Phoenix Suns","tier":"Legendary", "series":"NBA Finals (Series 5)","serial":"9494/12000"}
+{"id":"37303634","name":"Larry Bird","team":"Boston Celtics","tier":"Legendary", "series":"Run It Back (Series 2)","serial":"33/120"}
+{"id":"8822476","name":"Khris Middleton","team":"Milwaukee Bucks","tier":"Rare", "series":"Base Set (Series 4)","serial":"44938/50000"}
