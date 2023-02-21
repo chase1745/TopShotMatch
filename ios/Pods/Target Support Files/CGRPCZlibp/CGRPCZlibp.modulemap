@@ -1,0 +1,6 @@
+framework module CGRPCZlib {
+  umbrella header "CGRPCZlibp-umbrella.h"
+
+  export *
+  module * { export * }
+}

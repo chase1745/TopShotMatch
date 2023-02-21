@@ -48,7 +48,7 @@ transaction(leftNftID: UInt64, rightNftID: UInt64, rightUserAddress: Address): S
             ]
         )
 
-        // Create a proposal and return the proposal id 
+        // Create a proposal and return the proposal id
         return self.managerRef.createProposal(
             leftUserOffer: leftUserProposal,
             rightUserOffer: rightUserProposal,

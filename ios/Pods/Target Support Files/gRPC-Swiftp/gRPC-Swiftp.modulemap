@@ -1,0 +1,6 @@
+framework module GRPC {
+  umbrella header "gRPC-Swiftp-umbrella.h"
+
+  export *
+  module * { export * }
+}
