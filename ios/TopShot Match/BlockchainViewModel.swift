@@ -75,6 +75,8 @@ class BlockchainViewModel: ObservableObject {
         }
         self.accountSetUp = try await isAccountSetup()
         
+        try await setupAccount()
+        
         // check if account is setup, if not, run this
         if !accountSetUp {
             self.accountSetupLoading = true
@@ -192,6 +194,9 @@ class BlockchainViewModel: ObservableObject {
         transaction {
         
             prepare(acct: AuthAccount) {
+                acct.unlink(/public/MomentCollection)
+        
+                acct.link<&{NonFungibleToken.CollectionPublic, TopShot.MomentCollectionPublic, MetadataViews.ResolverCollection, NonFungibleToken.Receiver, NonFungibleToken.Provider}>(/public/MomentCollection, target: /storage/MomentCollection)
                 
                 // First, check to see if a moment collection already exists
                 if acct.borrow<&TopShot.Collection>(from: /storage/MomentCollection) == nil {
@@ -203,7 +208,7 @@ class BlockchainViewModel: ObservableObject {
                     acct.save(<-collection, to: /storage/MomentCollection)
                 
                     // create a public capability for the collection
-                    acct.link<&{NonFungibleToken.CollectionPublic, TopShot.MomentCollectionPublic, MetadataViews.ResolverCollection}>(/public/MomentCollection, target: /storage/MomentCollection)
+                    acct.link<&{NonFungibleToken.CollectionPublic, TopShot.MomentCollectionPublic, MetadataViews.ResolverCollection, NonFungibleToken.Receiver, NonFungibleToken.Provider}>(/public/MomentCollection, target: /storage/MomentCollection)
                 }
                 
                 if acct.borrow<&TopShot.Admin>(from: /storage/AdminMintPublic3) == nil {

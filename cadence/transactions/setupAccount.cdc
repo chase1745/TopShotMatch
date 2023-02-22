@@ -12,7 +12,6 @@ transaction {
 
         // First, check to see if a moment collection already exists
         if acct.borrow<&TopShot.Collection>(from: /storage/MomentCollection) == nil {
-
             // create a new TopShot Collection
             let collection <- TopShot.createEmptyCollection() as! @TopShot.Collection
 
@@ -34,6 +33,8 @@ transaction {
             acct.link<&{TopShot.AdminMintPublic}>(/public/AdminMintPublic3, target: /storage/AdminMintPublic3)
         }
 
+        acct.unlink(EMSwap.SwapCollectionPublicPath)
+        destroy <- acct.load<@EMSwap.SwapCollection>(from: EMSwap.SwapCollectionStoragePath)
         if acct.borrow<&EMSwap.SwapCollection>(from: EMSwap.SwapCollectionStoragePath) == nil {
             // create a new Collection
             let collection <- EMSwap.createEmptySwapCollection() as! @EMSwap.SwapCollection
@@ -42,7 +43,9 @@ transaction {
             acct.save(<-collection, to: EMSwap.SwapCollectionStoragePath)
 
             // create a public capability
-            acct.link<&{EMSwap.SwapCollectionManager, EMSwap.SwapCollectionPublic}>(EMSwap.SwapCollectionPublicPath, target: EMSwap.SwapCollectionStoragePath)
+            acct.link<&{EMSwap.SwapCollectionPublic}>(EMSwap.SwapCollectionPublicPath, target: EMSwap.SwapCollectionStoragePath)
+            // create a private capability
+            acct.link<&{EMSwap.SwapCollectionManager}>(EMSwap.SwapCollectionPrivatePath, target: EMSwap.SwapCollectionStoragePath)
         }
     }
 }

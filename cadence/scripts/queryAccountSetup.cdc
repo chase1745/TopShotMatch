@@ -6,9 +6,7 @@ pub fun main(address: Address): Bool {
     let account = getAccount(address)
     return account
         .getCapability<&{
-            NonFungibleToken.CollectionPublic,
-            TopShot.MomentCollectionPublic,
-            MetadataViews.ResolverCollection
+            NonFungibleToken.Receiver
         }>(/public/MomentCollection)
         .check()
 }
