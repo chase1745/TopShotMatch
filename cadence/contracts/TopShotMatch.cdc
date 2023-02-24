@@ -16,6 +16,18 @@ pub contract TopShotMatch {
         }
     }
 
+    pub struct MomentProposal {
+        pub let id: String
+        pub let leftMoment: {String: String}
+        pub let rightMoment: {String: String}
+
+        init(id: String, leftMoment: {String: String}, rightMoment: {String: String}) {
+            self.id = id
+            self.leftMoment = leftMoment
+            self.rightMoment = rightMoment
+        }
+    }
+
     // {address: [nft global ids that the user has added to their trading block]}
     pub var tradingBlock: {String: [MomentIds]}
 
@@ -27,6 +39,22 @@ pub contract TopShotMatch {
 
     pub fun updateUserTradingBlock(user: Address, newTradingBlock: [MomentIds]) {
         self.tradingBlock[user.toString()] = newTradingBlock
+    }
+
+    pub fun removeMomentFromTradingBlock(owner: Address, id: MomentIds) {
+        var indexOf: Int? = nil
+        for i, m in self.tradingBlock[owner.toString()] ?? [] {
+            if m.globalId == id.globalId && m.playId == id.playId {
+                indexOf = i
+                break
+            }
+        }
+
+        if indexOf != nil {
+            var moments = self.tradingBlock[owner.toString()]!
+            var newMoments = moments.slice(from: 0, upTo: indexOf!).concat(moments.slice(from: indexOf!+1, upTo: moments.length))
+            self.tradingBlock[owner.toString()] = newMoments
+        }
     }
 
     pub fun addLikedMoments(user: Address, momentIds: [MomentIds]) {

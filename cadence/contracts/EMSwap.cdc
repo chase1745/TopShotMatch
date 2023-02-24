@@ -1,6 +1,7 @@
 import FungibleToken from 0x9a0766d93b6608b7
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import NFTCatalog from 0x324c34e1c517e4db
+import MetadataViews from 0x631e88ae7f1d7c20
 
 access(all) contract EMSwap {
 
@@ -76,32 +77,62 @@ access(all) contract EMSwap {
 
         init(
             nftID: UInt64,
-            type: String
+            type: String,
+            ownerAddress: Address?
         ) {
 
-            let multipleCatalogEntriesMessage: String = "found multiple NFTCatalog entries for "
+            let multipleCatalogEntriesMessage: String = "found multiple NFTCatalog entries but no ownerAddress for "
             let zeroCatalogEntriesMessage: String = "could not find NFTCatalog entry for "
             let nftCatalogTypeMismatch: String = "input type does not match NFTCatalog entry type for "
 
-            // attempt to get NFTCatalog entry from type
-            let nftCatalogCollections: {String: Bool}? = NFTCatalog.getCollectionsForType(nftTypeIdentifier: type)
-
-            if (nftCatalogCollections!.keys.length > 1) {
-                panic(multipleCatalogEntriesMessage.concat(type))
-            } else if (nftCatalogCollections!.keys.length < 1) {
-                panic(zeroCatalogEntriesMessage.concat(type))
-            }
-
             let inputType = CompositeType(type) ?? panic("unable to cast type; must be a valid NFT type reference")
 
-            let catalogEntry = NFTCatalog.getCatalogEntry(collectionIdentifier: nftCatalogCollections!.keys[0])
-                ?? panic(zeroCatalogEntriesMessage.concat(inputType.identifier))
+            // attempt to get NFTCatalog entry from type
+            var catalogEntry: NFTCatalog.NFTCatalogMetadata? = nil
+            let nftCatalogCollections: {String: Bool}? = NFTCatalog.getCollectionsForType(nftTypeIdentifier: inputType.identifier)
 
-            assert(inputType == catalogEntry.nftType, message: nftCatalogTypeMismatch.concat(inputType.identifier))
+            if (nftCatalogCollections == nil || nftCatalogCollections!.keys.length < 1) {
+                panic(zeroCatalogEntriesMessage.concat(inputType.identifier))
+            } else if (nftCatalogCollections!.keys.length > 1) {
+
+                if (ownerAddress == nil) {
+                    panic(multipleCatalogEntriesMessage.concat(inputType.identifier))
+                }
+                let ownerPublicAccount = getAccount(ownerAddress!)
+
+                // attempt to match NFTCatalog entry with NFT from ownerAddress
+                for collectionKey in nftCatalogCollections!.keys {
+                    let tempCatalogEntry = NFTCatalog.getCatalogEntry(collectionIdentifier: collectionKey)
+                    if (tempCatalogEntry == nil) {
+                        continue
+                    }
+                    let collectionCap = ownerPublicAccount.getCapability<&AnyResource{MetadataViews.ResolverCollection}>(tempCatalogEntry!.collectionData.publicPath)
+                    if (collectionCap.check()) {
+                        let collectionRef = collectionCap.borrow()!
+                        if (!collectionRef.getIDs().contains(nftID)) {
+                            continue
+                        }
+                        let viewResolver = collectionRef.borrowViewResolver(id: nftID)
+                        let nftView = MetadataViews.getNFTView(id: nftID, viewResolver: viewResolver)
+                        if (nftView.display!.name == tempCatalogEntry!.collectionDisplay.name) {
+                            catalogEntry = tempCatalogEntry
+                        }
+                    }
+                }
+
+            } else {
+                catalogEntry = NFTCatalog.getCatalogEntry(collectionIdentifier: nftCatalogCollections!.keys[0])
+            }
+
+            if (catalogEntry == nil) {
+                panic(zeroCatalogEntriesMessage.concat(inputType.identifier))
+            }
+
+            assert(inputType == catalogEntry!.nftType, message: nftCatalogTypeMismatch.concat(inputType.identifier))
 
             self.nftID = nftID
             self.type = inputType
-            self.metadata = catalogEntry
+            self.metadata = catalogEntry!
         }
     }
 
@@ -202,9 +233,15 @@ access(all) contract EMSwap {
                 readableFees.append(fee.getReadable())
             }
 
+            let currentTimestamp: UFix64 = getCurrentBlock().timestamp
+            var minutesRemaining: UFix64 = 0.0
+            if (expirationEpochMilliseconds > currentTimestamp) {
+                minutesRemaining = (expirationEpochMilliseconds - currentTimestamp) / 60000.0
+            }
+
             self.id = id
             self.fees = readableFees
-            self.minutesRemainingBeforeExpiration = ((getCurrentBlock().timestamp - expirationEpochMilliseconds) / 60000.0).toString()
+            self.minutesRemainingBeforeExpiration = minutesRemaining.toString()
             self.leftUserAddress = leftUserOffer.userAddress.toString()
             self.leftUserOffer = leftUserOffer.getReadable()
             self.rightUserAddress = rightUserOffer.userAddress.toString()
@@ -339,6 +376,7 @@ access(all) contract EMSwap {
     // This interface allows public linking of the get and execute methods for trading partners
     access(all) resource interface SwapCollectionPublic {
         access(all) fun getProposal(id: String): ReadableSwapProposal
+        access(all) fun getUserOffer(proposalId: String, leftOrRight: String): UserOffer
         access(all) fun executeProposal(id: String, rightUserCapabilities: UserCapabilities)
     }
 
@@ -397,6 +435,26 @@ access(all) contract EMSwap {
             }
 
             return readableSwapProposals
+        }
+
+        // Function to provide the specified user offer details
+        access(all) fun getUserOffer(proposalId: String, leftOrRight: String): UserOffer {
+
+            let noSwapProposalMessage: String = "found no swap proposal with id "
+            let swapProposal: SwapProposal = self.swapProposals[proposalId] ?? panic(noSwapProposalMessage.concat(proposalId))
+
+            var userOffer: UserOffer? = nil
+
+            switch leftOrRight.toLower() {
+                case "left":
+                    userOffer = swapProposal.leftUserOffer
+                case "right":
+                    userOffer = swapProposal.rightUserOffer
+                default:
+                    panic("argument leftOrRight must be either 'left' or 'right'")
+            }
+
+            return userOffer!
         }
 
         // Function to delete a swap proposal
@@ -481,16 +539,16 @@ access(all) contract EMSwap {
         for proposedNft in userOffer.proposedNfts {
 
             // attempt to load CollectionPublic capability and verify ownership
-            let publicCapability = userPublicAccount.getCapability(proposedNft.metadata.collectionData.publicPath)
+            let publicCapability = userPublicAccount.getCapability<&AnyResource{NonFungibleToken.CollectionPublic}>(proposedNft.metadata.collectionData.publicPath)
 
-            let collectionPublicRef = publicCapability.borrow<&AnyResource{NonFungibleToken.CollectionPublic}>()
+            let collectionPublicRef = publicCapability.borrow()
                 ?? panic(collectionPublicMessage.concat(proposedNft.type.identifier))
 
             let ownedNftIds: [UInt64] = collectionPublicRef.getIDs()
             assert(ownedNftIds.contains(proposedNft.nftID), message: ownershipMessage.concat(proposedNft.type.identifier))
 
             let nftRef = collectionPublicRef.borrowNFT(id: proposedNft.nftID)
-            assert(nftRef.getType() == proposedNft.getType(), message: nftTypeMismatchMessage.concat(proposedNft.type.identifier))
+            assert(nftRef.getType() == proposedNft.type, message: nftTypeMismatchMessage.concat(proposedNft.type.identifier))
 
             if (userCapabilities != nil) {
 

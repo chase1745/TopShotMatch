@@ -1,7 +1,7 @@
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import TopShot from 0xaa3d8fb4584f9b91
 import MetadataViews from 0x631e88ae7f1d7c20
-import EMSwap from 0x2a9011074c827145
+import EMSwap from 0xaa3d8fb4584f9b91
 
 // This transaction sets up an account to use Top Shot
 // by storing an empty moment collection and creating
@@ -33,8 +33,6 @@ transaction {
             acct.link<&{TopShot.AdminMintPublic}>(/public/AdminMintPublic3, target: /storage/AdminMintPublic3)
         }
 
-        acct.unlink(EMSwap.SwapCollectionPublicPath)
-        destroy <- acct.load<@EMSwap.SwapCollection>(from: EMSwap.SwapCollectionStoragePath)
         if acct.borrow<&EMSwap.SwapCollection>(from: EMSwap.SwapCollectionStoragePath) == nil {
             // create a new Collection
             let collection <- EMSwap.createEmptySwapCollection() as! @EMSwap.SwapCollection
@@ -43,7 +41,7 @@ transaction {
             acct.save(<-collection, to: EMSwap.SwapCollectionStoragePath)
 
             // create a public capability
-            acct.link<&{EMSwap.SwapCollectionPublic}>(EMSwap.SwapCollectionPublicPath, target: EMSwap.SwapCollectionStoragePath)
+            acct.link<&{EMSwap.SwapCollectionPublic, EMSwap.SwapCollectionManager}>(EMSwap.SwapCollectionPublicPath, target: EMSwap.SwapCollectionStoragePath)
             // create a private capability
             acct.link<&{EMSwap.SwapCollectionManager}>(EMSwap.SwapCollectionPrivatePath, target: EMSwap.SwapCollectionStoragePath)
         }

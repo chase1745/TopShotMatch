@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PendingTradesView: View {
-    var trades: [Trade]? = nil
     var tradeProposalAccepted: (_ trade: Trade) -> Void
     var tradeProposalDeclined: (_ trade: Trade) -> Void
     
@@ -18,9 +17,9 @@ struct PendingTradesView: View {
     
     var body: some View {
         NavigationStack {
-            List(trades ?? []) { trade in
+            List(blockchainViewModel.pendingTrades) { trade in
                 NavigationLink(value: trade) {
-                    Text(trade.leftMoment.name + " - " + trade.leftMoment.name)
+                    Text(trade.leftMoment.name + " - " + trade.rightMoment.name)
                 }
             }
             .listStyle(.automatic)
@@ -51,7 +50,7 @@ struct PendingTradesView: View {
 
 struct PendingTradesView_Previews: PreviewProvider {
     static var previews: some View {
-        PendingTradesView(trades: TEST_TRADES, tradeProposalAccepted: {trade in }, tradeProposalDeclined: {trade in })
+        PendingTradesView(tradeProposalAccepted: {trade in }, tradeProposalDeclined: {trade in })
             .environmentObject(BlockchainViewModel())
     }
 }

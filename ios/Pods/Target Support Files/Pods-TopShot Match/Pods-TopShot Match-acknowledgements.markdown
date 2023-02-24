@@ -27,7 +27,7 @@ SOFTWARE.
 
 ## BloctoSDK
 
-Copyright (c) 2022 scottphc <scott.ph.chou@gmail.com>
+Copyright (c) 2022 portto <dev@portto.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1918,7 +1918,7 @@ Permission is granted to anyone to use this software for any purpose,including c
 
 ## FCL-SDK
 
-Copyright (c) 2022 scottphc <scott.ph.chou@gmail.com>
+Copyright (c) 2022 portto <dev@portto.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

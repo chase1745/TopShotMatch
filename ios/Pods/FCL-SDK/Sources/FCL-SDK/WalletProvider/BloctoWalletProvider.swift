@@ -204,6 +204,7 @@ public final class BloctoWalletProvider: WalletProvider {
                 script: Data(cadence.utf8),
                 arguments: arguments,
                 referenceBlockId: block.blockHeader.id,
+                gasLimit: limit,
                 proposalKey: proposalKey,
                 payer: feePayer,
                 authorizers: authorizers
@@ -332,6 +333,8 @@ public final class BloctoWalletProvider: WalletProvider {
         case .testnet:
             return .dev
         case .canarynet:
+            return nil
+        case .sandboxnet:
             return nil
         case .emulator:
             return nil

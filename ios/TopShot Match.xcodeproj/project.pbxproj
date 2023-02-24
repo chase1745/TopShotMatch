@@ -23,6 +23,7 @@
 		835B1D5429985E5D00616A04 /* ProposeTradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835B1D5329985E5D00616A04 /* ProposeTradeView.swift */; };
 		838443DA299D2DF800A3DA97 /* BlockchainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838443D9299D2DF800A3DA97 /* BlockchainViewModel.swift */; };
 		83B3BAF729A146A5005F2F7A /* MomentId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3BAF629A146A5005F2F7A /* MomentId.swift */; };
+		83C7C42829A72D260052549C /* MomentProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7C42729A72D260052549C /* MomentProposal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		835B1D5329985E5D00616A04 /* ProposeTradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposeTradeView.swift; sourceTree = "<group>"; };
 		838443D9299D2DF800A3DA97 /* BlockchainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainViewModel.swift; sourceTree = "<group>"; };
 		83B3BAF629A146A5005F2F7A /* MomentId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentId.swift; sourceTree = "<group>"; };
+		83C7C42729A72D260052549C /* MomentProposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentProposal.swift; sourceTree = "<group>"; };
 		97235FE8EEC647E8B3179427 /* Pods-TopShot Match.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopShot Match.debug.xcconfig"; path = "Target Support Files/Pods-TopShot Match/Pods-TopShot Match.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,6 +69,7 @@
 				835B1D512997FBD100616A04 /* Moment.swift */,
 				831F028A299AB7B900B7A79B /* Trade.swift */,
 				83B3BAF629A146A5005F2F7A /* MomentId.swift */,
+				83C7C42729A72D260052549C /* MomentProposal.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 			files = (
 				831F02852999A44F00B7A79B /* ProposeTradeDetailsView.swift in Sources */,
 				831F0290299AF7CC00B7A79B /* PendingTradeDetailsView.swift in Sources */,
+				83C7C42829A72D260052549C /* MomentProposal.swift in Sources */,
 				838443DA299D2DF800A3DA97 /* BlockchainViewModel.swift in Sources */,
 				831F02872999F0A500B7A79B /* TradingBlockView.swift in Sources */,
 				83B3BAF729A146A5005F2F7A /* MomentId.swift in Sources */,

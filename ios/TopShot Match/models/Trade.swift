@@ -17,4 +17,16 @@ struct Trade: Identifiable, Hashable {
 
     var leftMoment: Moment
     var rightMoment: Moment
+    
+    init(id: String, leftMoment: Moment, rightMoment: Moment) {
+        self.id = id
+        self.leftMoment = leftMoment
+        self.rightMoment = rightMoment
+    }
+    
+    init(proposal: MomentProposal) {
+        self.id = proposal.id
+        self.leftMoment = Moment(globalId: Int(proposal.leftMoment["globalId"]!)!, metadata: proposal.leftMoment)
+        self.rightMoment = Moment(globalId: Int(proposal.rightMoment["globalId"]!)!, metadata: proposal.rightMoment)
+    }
 }

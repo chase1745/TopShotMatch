@@ -40,7 +40,6 @@ struct Moment: Identifiable, Equatable, Hashable {
     init(globalId: Int, metadata: [String: String], user: String? = nil, userHasLiked: Bool = false, onTradingBlock: Bool = false) {
         self.globalId = globalId
         self.id = String(globalId)
-        print(metadata["name"]!)
         self.user = user ?? metadata["owner"]!
         self.playId = metadata["playId"]!
         self.imgId = metadata["id"]!

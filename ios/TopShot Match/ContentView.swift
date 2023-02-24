@@ -177,8 +177,7 @@ struct ContentView: View {
                 .presentationDetents([.large])
         }
         .popover(isPresented: $showPendingTradesView) {
-            PendingTradesView(trades: pendingTrades,
-                              tradeProposalAccepted: tradePropsalAccepted,
+            PendingTradesView(tradeProposalAccepted: tradePropsalAccepted,
                               tradeProposalDeclined: tradePropsalDeclined)
         }
         .popover(isPresented: $blockchainViewModel.accountSetupLoading) {
@@ -281,7 +280,9 @@ struct ContentView: View {
     }
     
     func tradePropsalAccepted(trade: Trade) {
-        print("Proposal accepted")
+        Task {
+            try await blockchainViewModel.submitTradeAcceptance(trade: trade)
+        }
     }
     
     func tradePropsalDeclined(trade: Trade) {

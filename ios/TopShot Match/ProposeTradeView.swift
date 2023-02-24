@@ -17,7 +17,7 @@ struct ProposeTradeView: View {
     
     var body: some View {
         NavigationStack {
-            List(blockchainViewModel.tradableMoments) { moment in
+            List(blockchainViewModel.userMoments) { moment in
                 NavigationLink(value: moment) {
                     MomentListDetailView(moment: moment)
                 }
@@ -29,14 +29,13 @@ struct ProposeTradeView: View {
                     rightMoment: moment,
                     tradeProposalSubmitted: {
                         self.presentationMode.wrappedValue.dismiss()
-                        tradePropsalSubmitted(likedMoment, moment)
+                        tradePropsalSubmitted(moment, likedMoment)
                     }
                 )
             }
             .navigationTitle("Select Outgoing Moment")
-        }.onAppear {
-            Task {
-                try await blockchainViewModel.getOtherUserMoments(user: likedMoment.user)
+            .onAppear {
+                print(likedMoment)
             }
         }
     }
