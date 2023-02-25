@@ -10,6 +10,8 @@ import FCL_SDK
 
 @main
 struct TopShot_MatchApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     @ObservedObject var blockchainViewModel: BlockchainViewModel = BlockchainViewModel()
     
     var body: some Scene {

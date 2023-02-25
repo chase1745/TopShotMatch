@@ -21,5 +21,12 @@
 		<string>blocto</string>
 		<string>blocto-testnet</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>launchScreenBackground</string>
+		<key>UILaunchScreen</key>
+		<dict/>
+	</dict>
 </dict>
 </plist>

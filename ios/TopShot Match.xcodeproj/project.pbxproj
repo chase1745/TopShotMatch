@@ -24,6 +24,9 @@
 		838443DA299D2DF800A3DA97 /* BlockchainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838443D9299D2DF800A3DA97 /* BlockchainViewModel.swift */; };
 		83B3BAF729A146A5005F2F7A /* MomentId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3BAF629A146A5005F2F7A /* MomentId.swift */; };
 		83C7C42829A72D260052549C /* MomentProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7C42729A72D260052549C /* MomentProposal.swift */; };
+		83C7C42A29A882220052549C /* EMSwapProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7C42929A882220052549C /* EMSwapProposal.swift */; };
+		83C7C42C29A994D60052549C /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7C42B29A994D60052549C /* NotificationDelegate.swift */; };
+		83C7C42E29A996A10052549C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7C42D29A996A10052549C /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +51,9 @@
 		838443D9299D2DF800A3DA97 /* BlockchainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainViewModel.swift; sourceTree = "<group>"; };
 		83B3BAF629A146A5005F2F7A /* MomentId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentId.swift; sourceTree = "<group>"; };
 		83C7C42729A72D260052549C /* MomentProposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentProposal.swift; sourceTree = "<group>"; };
+		83C7C42929A882220052549C /* EMSwapProposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMSwapProposal.swift; sourceTree = "<group>"; };
+		83C7C42B29A994D60052549C /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
+		83C7C42D29A996A10052549C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97235FE8EEC647E8B3179427 /* Pods-TopShot Match.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopShot Match.debug.xcconfig"; path = "Target Support Files/Pods-TopShot Match/Pods-TopShot Match.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +76,7 @@
 				831F028A299AB7B900B7A79B /* Trade.swift */,
 				83B3BAF629A146A5005F2F7A /* MomentId.swift */,
 				83C7C42729A72D260052549C /* MomentProposal.swift */,
+				83C7C42929A882220052549C /* EMSwapProposal.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -110,6 +117,8 @@
 				835B1D4529974A8A00616A04 /* Assets.xcassets */,
 				835B1D4729974A8A00616A04 /* Preview Content */,
 				838443D9299D2DF800A3DA97 /* BlockchainViewModel.swift */,
+				83C7C42B29A994D60052549C /* NotificationDelegate.swift */,
+				83C7C42D29A996A10052549C /* AppDelegate.swift */,
 			);
 			path = "TopShot Match";
 			sourceTree = "<group>";
@@ -260,12 +269,15 @@
 				831F02872999F0A500B7A79B /* TradingBlockView.swift in Sources */,
 				83B3BAF729A146A5005F2F7A /* MomentId.swift in Sources */,
 				835B1D4429974A8800616A04 /* ContentView.swift in Sources */,
+				83C7C42C29A994D60052549C /* NotificationDelegate.swift in Sources */,
 				835B1D502997504100616A04 /* CardView.swift in Sources */,
 				835B1D4229974A8800616A04 /* TopShot_MatchApp.swift in Sources */,
 				831F028B299AB7B900B7A79B /* Trade.swift in Sources */,
 				835B1D5429985E5D00616A04 /* ProposeTradeView.swift in Sources */,
 				831F028E299AB99000B7A79B /* PendingTradesView.swift in Sources */,
 				835B1D522997FBD100616A04 /* Moment.swift in Sources */,
+				83C7C42A29A882220052549C /* EMSwapProposal.swift in Sources */,
+				83C7C42E29A996A10052549C /* AppDelegate.swift in Sources */,
 				831F02892999F0FA00B7A79B /* MomentListDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,8 +403,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 97235FE8EEC647E8B3179427 /* Pods-TopShot Match.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon1;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "TopShot Match/TopShot Match.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -406,7 +419,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -431,8 +443,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 36628DC844CC8A562DA86C3A /* Pods-TopShot Match.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon1;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "TopShot Match/TopShot Match.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -446,7 +459,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";

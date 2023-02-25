@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "0D10EE58-656A-4DFB-9D42-80B75C85285B"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C42E87D3-547B-416E-9F6A-7BC6B849D4DE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopShot Match/BlockchainViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1029"
+            endingLineNumber = "1029"
+            landmarkName = "checkForExecutedTrades()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C42E87D3-547B-416E-9F6A-7BC6B849D4DE - ba389475edbe31cc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for TopShot_Match.BlockchainViewModel.checkForExecutedTrades() async throws -&gt; ()"
+                  moduleName = "TopShot Match"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timmcdermott/Sites/TopShotMatch/ios/TopShot%20Match/BlockchainViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1028"
+                  endingLineNumber = "1028"
+                  offsetFromSymbolStart = "216">
+               </Location>
+               <Location
+                  uuid = "C42E87D3-547B-416E-9F6A-7BC6B849D4DE - 8eebdbcc203d1a32"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for TopShot_Match.BlockchainViewModel.checkForExecutedTrades() async throws -&gt; ()"
+                  moduleName = "TopShot Match"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timmcdermott/Sites/TopShotMatch/ios/TopShot%20Match/BlockchainViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1028"
+                  endingLineNumber = "1028"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "C42E87D3-547B-416E-9F6A-7BC6B849D4DE - 56a3b8e39207afc5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(8) suspend resume partial function for TopShot_Match.BlockchainViewModel.checkForExecutedTrades() async throws -&gt; ()"
+                  moduleName = "TopShot Match"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timmcdermott/Sites/TopShotMatch/ios/TopShot%20Match/BlockchainViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1028"
+                  endingLineNumber = "1028"
+                  offsetFromSymbolStart = "40">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

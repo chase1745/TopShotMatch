@@ -10,6 +10,7 @@ import FCL_SDK
 import Cadence
 import Combine
 import FlowSDK
+import UserNotifications
 
 class BlockchainViewModel: ObservableObject {
     // User's logged in address
@@ -33,6 +34,8 @@ class BlockchainViewModel: ObservableObject {
     @Published var showTradeView: Bool = false
     @Published var askToProposeTrade: Bool = false
     @Published var showProposalSubmitted: Bool = false
+    
+    var notifiedSwaps: Set<String> = Set()
 
     init() {
         let bloctoWalletProvider = try! BloctoWalletProvider(
@@ -99,11 +102,12 @@ class BlockchainViewModel: ObservableObject {
     @MainActor
     func logout() {
         fcl.logout()
+        
         self.userAddress = nil
-        self.userMoments = []
-        self.likedMoments = []
         self.globalTradingBlock = nil
         self.originalGlobalTradingBlock = nil
+        self.userMoments = []
+        self.likedMoments = []
     }
 
     @MainActor
@@ -980,7 +984,7 @@ class BlockchainViewModel: ObservableObject {
         transaction(leftUser: Address, id: String) {
             prepare(acct: AuthAccount) {
                 let acct = getAccount(leftUser)
-                let swapCollectionCapability = acct.getCapability<&AnyResource{EMSwap.SwapCollectionPublic}>(EMSwap.SwapCollectionPublicPath)
+                let swapCollectionCapability = acct.getCapability<&AnyResource{EMSwap.SwapCollectionManager}>(EMSwap.SwapCollectionPublicPath)
                 let swapCollection = swapCollectionCapability.borrow() ?? panic("swapCollection is invalid")
                 swapCollection.deleteProposal(id: id)
             }
@@ -1015,6 +1019,60 @@ class BlockchainViewModel: ObservableObject {
         
         // re-fetch moments
         try await getPendingTrades()
+    }
+    
+    func checkForExecutedTrades() async throws -> Void {
+        guard let userAddress = userAddress else {
+            return
+        }
+        
+        let latestBlock = try await fcl.getLastestBlock(sealed: true)
+        guard let latestBlock = latestBlock else {
+            print("error fetching block, latest is null")
+            return
+        }
+        
+        let response = try await fcl.getEventsForHeightRange(eventType: "A.aa3d8fb4584f9b91.EMSwap.ProposalExecuted", startHeight: latestBlock.blockHeader.height-249, endHeight: latestBlock.blockHeader.height)
+
+        if response.isEmpty {
+            return
+        }
+        
+        for entry in response {
+            for event in entry.events {
+                if event.value.fields.isEmpty {
+                    continue
+                }
+                
+                let proposal: EMSwapProposal = try! event.value.fields.first!.value.toSwiftValue()
+                if [proposal.leftUserAddress, proposal.rightUserAddress].contains(userAddress.description) {
+                    // user is involved in a recent trade, send a notification
+                    if notifiedSwaps.contains(event.transactionId.description) {
+                        return
+                    }
+                    notifiedSwaps.insert(event.transactionId.description)
+                    
+                    try await notifySwap()
+                }
+            }
+        }
+    }
+    
+    func notifySwap() async throws {
+        let content = UNMutableNotificationContent()
+        content.title = "Swap completed!"
+        content.body = "Check out your trading block to see your new moment."
+        content.launchImageName = "basketball"
+        content.sound = UNNotificationSound.default
+        
+        // show this notification 3 seconds from now
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        // choose a random identifier
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        // add our notification request
+        try await UNUserNotificationCenter.current().add(request)
     }
 
     // Send a Cadence script query to the blockchain using async/await

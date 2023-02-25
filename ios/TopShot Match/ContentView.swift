@@ -7,8 +7,11 @@
 
 import SwiftUI
 import FCL_SDK
+import UserNotifications
 
 struct ContentView: View {
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    
     @Environment(\.colorScheme) var colorScheme
     
     static let userActivity = "com.topshotmatch.chasemcdermott"
@@ -49,6 +52,13 @@ struct ContentView: View {
         Button(action: {
             Task {
                 try await blockchainViewModel.login()
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                    if success {
+                        print("All set!")
+                    } else if let error = error {
+                        print(error.localizedDescription)
+                    }
+                }
             }
         }) {
             Text("Login")
@@ -228,6 +238,11 @@ struct ContentView: View {
             }, message: {
                 Text("Now just wait for the other user to accept or decline.")
             })
+        .onReceive(timer) { _ in
+            Task {
+                try await blockchainViewModel.checkForExecutedTrades()
+            }
+        }
     }
     
     func swipeMoment(at index: Int, _ direction: Direction) {
@@ -286,7 +301,9 @@ struct ContentView: View {
     }
     
     func tradePropsalDeclined(trade: Trade) {
-        print("Proposal declined")
+        Task {
+            try await blockchainViewModel.deleteProposal(trade: trade)
+        }
     }
 }
 

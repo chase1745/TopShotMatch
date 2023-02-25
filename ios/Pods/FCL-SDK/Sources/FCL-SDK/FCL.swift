@@ -9,6 +9,7 @@ import Foundation
 import FlowSDK
 import Cadence
 import AuthenticationServices
+import GRPC
 
 public let fcl: FCL = FCL()
 
@@ -25,7 +26,12 @@ public class FCL: NSObject {
     public var delegate: FCLDelegate?
 
     var flowAPIClient: Client {
-        Client(network: config.network)
+        get async throws {
+            let task = Task(priority: .utility) {
+                Client(network: config.network)
+            }
+            return await task.value
+        }
     }
 
     private var webAuthSession: ASWebAuthenticationSession?
@@ -427,16 +433,32 @@ extension FCL {
     }
 
     func sendIX(ix: Interaction) async throws -> Identifier {
-        let result = Task(priority: .background) {
-            let tx = try await ix.toFlowTransaction()
-            return try await fcl.flowAPIClient.sendTransaction(transaction: tx)
-        }
-        return try await result.value
+        let tx = try await ix.toFlowTransaction()
+        return try await fcl.flowAPIClient.sendTransaction(transaction: tx)
     }
 
 }
 
 public extension FCL {
+
+    func getEventsForHeightRange(
+        eventType: String,
+        startHeight: UInt64,
+        endHeight: UInt64,
+        options: CallOptions? = nil
+    ) async throws -> [BlockEvents] {
+        try await flowAPIClient
+            .getEventsForHeightRange(eventType: eventType, startHeight: startHeight, endHeight: endHeight, options: options)
+    }
+
+    func getEventsForBlockIDs(
+        eventType: String,
+        blockIds: [Identifier],
+        options: CallOptions? = nil
+    ) async throws -> [BlockEvents] {
+        try await flowAPIClient
+            .getEventsForBlockIDs(eventType: eventType, blockIds: blockIds, options: options)
+    }
 
     func getAccount(address: String) async throws -> FlowSDK.Account? {
         try await flowAPIClient
