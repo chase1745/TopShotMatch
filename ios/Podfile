@@ -6,7 +6,7 @@ target 'TopShot Match' do
   use_frameworks!
 
   # Pods for TopShot Match
-  pod 'FCL-SDK', :git => 'https://github.com/chase1745/fcl-swift.git', :commit => 'a43c66a2433e90ff95ae4a051110bf74dab816a8'
+  pod 'FCL-SDK', '~> 0.3.3'
 
 end
 

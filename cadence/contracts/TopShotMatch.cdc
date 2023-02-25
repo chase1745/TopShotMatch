@@ -1,7 +1,9 @@
 import TopShot from 0xaa3d8fb4584f9b91
 
 // Note that this contract is very insecsure and should not be used on mainnet,
-// it is only for a hackathon demo on testnet
+// it is only for a hackathon demo on testnet.
+// I ran out of time to go back and make it better, using capabilities, cleaner code,
+// more comments, etc.
 pub contract TopShotMatch {
 
     pub struct MomentIds {
@@ -31,9 +33,6 @@ pub contract TopShotMatch {
     // {address: [nft global ids that the user has added to their trading block]}
     pub var tradingBlock: {String: [MomentIds]}
 
-    // {nft global id: [address of users that have liked the moment]}
-    // pub var likedMoments: {UInt32: [Address]} = {}
-
     // A very naive way of storing which users have liked >= 1 of the other users moments
     pub var likedMomentsRelationship: {String: [String]}
 
@@ -58,14 +57,6 @@ pub contract TopShotMatch {
     }
 
     pub fun addLikedMoments(user: Address, momentIds: [MomentIds]) {
-        // for id in momentIds {
-            // if self.likedMoments[id] == nil {
-            //     self.likedMoments[id] = [user]
-            // } else if !self.likedMoments[id]?.contains(user) {
-            //     self.likedMoments[id]?.append(user)
-            // }
-        // }
-
         if self.likedMomentsRelationship[user.toString()] == nil {
             self.likedMomentsRelationship[user.toString()] = []
         }
