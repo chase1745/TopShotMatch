@@ -33,7 +33,7 @@ struct ProposeTradeView: View {
                     }
                 )
             }
-            .navigationTitle("Select Outgoing Moment")
+            .navigationTitle("Outgoing Moment")
             .onAppear {
                 print(likedMoment)
             }

@@ -108,6 +108,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             headers
+                .padding(.bottom)
             
             if blockchainViewModel.globalTradingBlock == nil {
                 VStack {

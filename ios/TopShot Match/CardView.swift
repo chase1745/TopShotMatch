@@ -13,7 +13,7 @@ enum Direction {
 }
 
 let MAX_POSITION = 5
-let MAX_X_MOVEMENT = 145.0
+let MAX_X_MOVEMENT = 105.0
 
 struct CardView: View {
 
@@ -121,7 +121,7 @@ struct CardView: View {
                         }
                         removal?(.left)
                     } else {
-                        withAnimation(Animation.spring(response: 0.65, dampingFraction: 0.65)) {
+                        withAnimation(Animation.interpolatingSpring(stiffness: 160, damping: 14)) {
                             offset = .zero
                         }
                     }

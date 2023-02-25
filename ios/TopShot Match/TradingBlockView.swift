@@ -53,7 +53,7 @@ struct TradingBlockView: View {
                 }.listStyle(.plain)
                 Text("\(selectedMoments.count) selections")
             }
-            .navigationTitle("Trade Block")
+            .navigationTitle("Trading Block")
             .environment(\.editMode, Binding.constant(EditMode.active))
         }
     }

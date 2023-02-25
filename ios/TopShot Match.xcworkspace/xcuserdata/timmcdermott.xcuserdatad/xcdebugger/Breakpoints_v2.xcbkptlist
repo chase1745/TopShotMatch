@@ -14,8 +14,8 @@
             filePath = "TopShot Match/BlockchainViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1029"
-            endingLineNumber = "1029"
+            startingLineNumber = "980"
+            endingLineNumber = "980"
             landmarkName = "checkForExecutedTrades()"
             landmarkType = "7">
             <Locations>

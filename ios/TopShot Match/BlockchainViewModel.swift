@@ -133,62 +133,13 @@ class BlockchainViewModel: ObservableObject {
              return false
         }
 
-        let response = try! await sendScript(
+        let response = try await sendScript(
             script: script,
             arguments: [Cadence.Argument(.address(address))]
         )
 
-        return try! response.value.toSwiftValue()
+        return try response.value.toSwiftValue()
     }
-
-    // TODO: I don't think this function is needed... can probs remove
-//    @MainActor
-//    func getOtherUserMoments(user: String) async throws -> Void {
-//        let script = """
-//        import NonFungibleToken from 0x631e88ae7f1d7c20
-//        import TopShot from 0xaa3d8fb4584f9b91
-//        import MetadataViews from 0x631e88ae7f1d7c20
-//
-//        // return {globalId: metadata}
-//        pub fun main(account: Address): {UInt64: {String: String}?} {
-//
-//            let acct = getAccount(account)
-//
-//            let collectionRef = acct.getCapability(/public/MomentCollection)
-//                                .borrow<&{
-//                                    NonFungibleToken.CollectionPublic,
-//                                    TopShot.MomentCollectionPublic,
-//                                    MetadataViews.ResolverCollection
-//                                }>()!
-//
-//            var moments = collectionRef.borrowMoments()
-//            var metadatas: {UInt64: {String: String}?} = {}
-//            for moment in moments {
-//                var metadata = TopShot.getPlayMetaData(playID: UInt32(moment.data.playID))
-//                metadata?.insert(key: "playId", moment.data.playID.toString())
-//                metadata?.insert(key: "owner", account.toString())
-//                metadatas.insert(key: moment.id, metadata)
-//            }
-//            return metadatas
-//        }
-//        """
-//
-//        let response = try! await sendScript(
-//            script: script,
-//            arguments: [Cadence.Argument(.address(Cadence.Address(hexString: user)))]
-//        )
-//
-//        let metadatas: [UInt64: [String: String]] = try! response.value.toSwiftValue()
-//
-//        // filter out bad moments and map to our internal moment model
-//        let moments = metadatas
-//            .map { Moment(
-//                globalId: Int($0),
-//                metadata: $1
-//            )}
-//
-//        self.tradableMoments = moments
-//    }
 
     @MainActor
     func setupAccount() async throws -> Void {
@@ -245,7 +196,7 @@ class BlockchainViewModel: ObservableObject {
         }
         """
 
-        let txHash = try! await sendTx(script: script)
+        let txHash = try await sendTx(script: script)
         var status: TransactionStatus = .unknown
         withAnimation {
             transactionPending = true
@@ -298,12 +249,12 @@ class BlockchainViewModel: ObservableObject {
         }
 
         self.userMomentsLoading = true
-        let response = try! await sendScript(
+        let response = try await sendScript(
             script: script,
             arguments: [Cadence.Argument(.address(user))]
         )
 
-        let metadatas: [UInt64: [String: String]] = try! response.value.toSwiftValue()
+        let metadatas: [UInt64: [String: String]] = try response.value.toSwiftValue()
         let tradingBlockMomentIds = try await getUserTradingBlock()
         // filter out bad moments and map to our internal moment model
         let moments = metadatas
@@ -332,12 +283,12 @@ class BlockchainViewModel: ObservableObject {
             return []
         }
 
-        let response = try! await sendScript(
+        let response = try await sendScript(
             script: script,
             arguments: [Cadence.Argument(.address(address))]
         )
 
-        let momentIds: [MomentId] = try! response.value.toSwiftValue()
+        let momentIds: [MomentId] = try response.value.toSwiftValue()
         return momentIds.map { Int($0.globalId) }
     }
 
@@ -386,7 +337,7 @@ class BlockchainViewModel: ObservableObject {
         let setId: UInt32 = 1
         let quantity: UInt64 = 1
 
-        let txHash = try! await sendTx(
+        let txHash = try await sendTx(
             script: script,
             arguments: [.uint32(setId), .array(playIds.map { .uint32(UInt32($0)) }), .uint64(quantity), .address(user)]
         )
@@ -441,7 +392,7 @@ class BlockchainViewModel: ObservableObject {
             ) } )
         ]
 
-        let txHash = try! await sendTx(script: script, arguments: args)
+        let txHash = try await sendTx(script: script, arguments: args)
         var status: TransactionStatus = .unknown
         withAnimation {
             transactionPending = true
@@ -479,12 +430,12 @@ class BlockchainViewModel: ObservableObject {
         withAnimation {
             feedLoading = true
         }
-        let response = try! await sendScript(
+        let response = try await sendScript(
             script: script,
             arguments: [Cadence.Argument(.address(address))]
         )
 
-        let metadatas: [UInt64: [String: String]] = try! response.value.toSwiftValue()
+        let metadatas: [UInt64: [String: String]] = try response.value.toSwiftValue()
 
         withAnimation {
             self.globalTradingBlock = metadatas
@@ -525,7 +476,7 @@ class BlockchainViewModel: ObservableObject {
             ) } )
         ]
 
-        let txHash = try! await sendTx(script: script, arguments: args)
+        let txHash = try await sendTx(script: script, arguments: args)
         var status: TransactionStatus = .unknown
         withAnimation {
             transactionPending = true
@@ -652,12 +603,12 @@ class BlockchainViewModel: ObservableObject {
             ))
         ]
 
-        let response = try! await sendScript(
+        let response = try await sendScript(
             script: script,
             arguments: args
         )
 
-        let proposals: [MomentProposal] = try! response.value.toSwiftValue()
+        let proposals: [MomentProposal] = try response.value.toSwiftValue()
         pendingTrades = proposals.map { Trade(proposal: $0)}
     }
 
@@ -782,7 +733,7 @@ class BlockchainViewModel: ObservableObject {
             ]))
         ]
 
-        let txHash = try! await sendTx(script: script, arguments: args)
+        let txHash = try await sendTx(script: script, arguments: args)
         var status: TransactionStatus = .unknown
         withAnimation {
             transactionPending = true
@@ -954,7 +905,7 @@ class BlockchainViewModel: ObservableObject {
             Cadence.Argument(.uint64(UInt64(otherUserMoment.globalId)))
         ]
 
-        let txHash = try! await sendTx(script: script, arguments: args)
+        let txHash = try await sendTx(script: script, arguments: args)
         var status: TransactionStatus = .unknown
         withAnimation {
             transactionPending = true
@@ -1000,7 +951,7 @@ class BlockchainViewModel: ObservableObject {
             Cadence.Argument(.string(trade.id))
         ]
         
-        let txHash = try! await sendTx(script: script, arguments: args)
+        let txHash = try await sendTx(script: script, arguments: args)
         var status: TransactionStatus = .unknown
         withAnimation {
             transactionPending = true
@@ -1032,7 +983,7 @@ class BlockchainViewModel: ObservableObject {
             return
         }
         
-        let response = try await fcl.getEventsForHeightRange(eventType: "A.aa3d8fb4584f9b91.EMSwap.ProposalExecuted", startHeight: latestBlock.blockHeader.height-249, endHeight: latestBlock.blockHeader.height)
+        let response = try await fcl.getEventsForHeightRange(eventType: "A.aa3d8fb4584f9b91.EMSwap.ProposalExecuted", startHeight: latestBlock.blockHeader.height-10, endHeight: latestBlock.blockHeader.height)
 
         if response.isEmpty {
             return
@@ -1044,7 +995,7 @@ class BlockchainViewModel: ObservableObject {
                     continue
                 }
                 
-                let proposal: EMSwapProposal = try! event.value.fields.first!.value.toSwiftValue()
+                let proposal: EMSwapProposal = try event.value.fields.first!.value.toSwiftValue()
                 if [proposal.leftUserAddress, proposal.rightUserAddress].contains(userAddress.description) {
                     // user is involved in a recent trade, send a notification
                     if notifiedSwaps.contains(event.transactionId.description) {
