@@ -1,4 +1,6 @@
-# TopShotMatch
+# TopShot Match
+
+[TopShot Match logo](bball.png)
 
 ## Flow Hackathon 2023
 
