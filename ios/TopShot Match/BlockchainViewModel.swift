@@ -1004,6 +1004,8 @@ class BlockchainViewModel: ObservableObject {
                     notifiedSwaps.insert(event.transactionId.description)
                     
                     try await notifySwap()
+                    try await getUserNfts()
+                    try await getGlobalTradingBlock()
                 }
             }
         }
